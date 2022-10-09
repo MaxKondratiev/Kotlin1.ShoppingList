@@ -7,7 +7,14 @@ import java.lang.RuntimeException
 object ShopItemRepositoryImpl: ShopItemRepository {
 
     private val shopList = mutableListOf<ShopingItem>()
-    private var autoIncrementId = 0     
+    private var autoIncrementId = 0
+
+    init {
+        for (i in 0 until 10) {
+            val item = ShopingItem("Name $i", i , true)
+            addItem(item)
+        }
+    }
 
 
     override fun addItem(item: ShopingItem) {
