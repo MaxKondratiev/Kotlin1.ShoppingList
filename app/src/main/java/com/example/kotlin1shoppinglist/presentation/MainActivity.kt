@@ -37,16 +37,16 @@ class MainActivity : AppCompatActivity() {
             } else {
                 R.layout.item_shop_disabled
             }
-            val view = LayoutInflater.from(this).inflate(layoutId,llshopList,false)
-            val tvName = view.findViewById<TextView>(R.id.tv_name)
-            val tvCount = view.findViewById<TextView>(R.id.tv_count)
-            tvName.text = item.name
-            tvCount.text = item.count.toString()
-            llshopList.addView(view)
-            view.setOnLongClickListener {
-                viewModel.changeEnableState(item)
-                true
-            }
+//            val view = LayoutInflater.from(this).inflate(layoutId,llshopList,false)
+//            val tvName = view.findViewById<TextView>(R.id.tv_name)
+//            val tvCount = view.findViewById<TextView>(R.id.tv_count)
+//            tvName.text = item.name
+//            tvCount.text = item.count.toString()
+//            llshopList.addView(view)
+//            view.setOnLongClickListener {
+//                viewModel.changeEnableState(item)
+//                true
+//            }
             
         }
 
