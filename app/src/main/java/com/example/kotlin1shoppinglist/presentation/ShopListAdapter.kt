@@ -1,5 +1,6 @@
 package com.example.kotlin1shoppinglist.presentation
 
+import android.util.Log
 import android.view.ContentInfo
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin1shoppinglist.R
 import com.example.kotlin1shoppinglist.domain.ShopingItem
+import java.lang.Exception
 
 class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
-
+    var count = 0
     var shopList = listOf<ShopingItem>()
         set(value) {
             field = value
@@ -25,40 +27,77 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
+        Log.d("TEST", "onCreateViewHolder ${++count}" )
+        val shopItem = shopList[viewType]
+         val layout = when (viewType) {
+             VIEW_TYPE_ENABLED -> R.layout.item_shop_enabled
+             VIEW_TYPE_DISABLED -> R.layout.item_shop_disabled
+             else -> throw Exception("Uknown  view type: $viewType")
+             
+         }
         val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_shop_enabled, parent,
-            false
+            layout,parent,false
         )
-        return ShopItemViewHolder(view)
+        return   ShopItemViewHolder(view)
+
+//        val view: View
+//        if(viewType == VIEW_TYPE_ENABLED ) {
+//              view = LayoutInflater.from(parent.context).inflate(
+//                R.layout.item_shop_enabled, parent,
+//                false
+//            )
+//        }   else {
+//             view = LayoutInflater.from(parent.context).inflate(
+//                R.layout.item_shop_disabled, parent,
+//                false
+//            )
+//        }
+//
+//        return ShopItemViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
 
         val shopItem = shopList[position]
-        val status = if ( shopItem.enabled) {
-            "Active"
-        }       else {
-            "Not Active"
-        }
+
         holder.itemView.setOnClickListener {
             true
         }
-        if(shopItem.enabled) {
-            holder.tvName.text = "${shopItem.name}  $status"
-            holder.tvCount.text = shopItem.count.toString()
-            holder.tvName.setTextColor(ContextCompat.getColor(holder.itemView.context,
-            android.R.color.holo_red_dark))
-        }  else {
-            holder.tvName.text = ""
-            holder.tvCount.text = ""
-            holder.tvName.setTextColor(ContextCompat.getColor(holder.itemView.context,
-                android.R.color.white))
-        }
+        holder.tvName.text = shopItem.name
+        holder.tvCount.text = shopItem.count.toString()
+        
+//        }
+//        if(shopItem.enabled) {
+//            holder.tvName.text = "${shopItem.name} TRUE"
+//            holder.tvCount.text = shopItem.count.toString()
+//            holder.tvName.setTextColor(ContextCompat.getColor(holder.itemView.context,
+//            android.R.color.holo_red_dark))
+//        }  else {
+//            holder.tvName.text = "FALSE "
+//            holder.tvCount.text = ""
+//            holder.tvName.setTextColor(ContextCompat.getColor(holder.itemView.context,
+//                android.R.color.white))
+//        }
 
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        val item = shopList[position]
+         return if (item.enabled) {
+             VIEW_TYPE_ENABLED
+        }   else {
+             VIEW_TYPE_DISABLED
+        }
 
     }
 
     override fun getItemCount(): Int {
         return shopList.size
+    }
+
+    companion object {
+        const val VIEW_TYPE_ENABLED = 0
+        const val VIEW_TYPE_DISABLED = 1
+        const val MAX_POOL_SIZE = 20
     }
 }
