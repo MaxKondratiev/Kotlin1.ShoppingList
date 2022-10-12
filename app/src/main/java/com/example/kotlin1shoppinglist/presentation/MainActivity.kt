@@ -37,6 +37,11 @@ class MainActivity : AppCompatActivity() {
             ShopListAdapter.VIEW_TYPE_ENABLED, ShopListAdapter.MAX_POOL_SIZE)
         recyclerViewShopList.recycledViewPool.setMaxRecycledViews(
             ShopListAdapter.VIEW_TYPE_DISABLED, ShopListAdapter.MAX_POOL_SIZE)
+        adapter.onShopItemListener =  {
+            viewModel.changeEnableState(it)
+        }
     }
+
+
 
 }
