@@ -9,5 +9,7 @@ interface ShopItemRepository {
     fun editItem(item: ShopingItem)
     fun deleteItem(item: ShopingItem)
     fun addItem(item : ShopingItem)
+    fun showScreen(item: ShopingItem): ShopingItem
+
 
 }
