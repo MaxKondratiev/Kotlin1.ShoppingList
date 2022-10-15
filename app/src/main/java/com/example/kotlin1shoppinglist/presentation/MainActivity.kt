@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopListLiveDataRe.observe(this) {
 
-            adapter.shopList = it
+//            adapter.shopList = it
+            adapter.submitList(it) 
         }
 
     }
@@ -65,7 +66,8 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     Log.d("TEST4", "DELETED")
-                    val item = adapter.shopList[viewHolder.adapterPosition]
+//                    val item = adapter.shopList[viewHolder.adapterPosition]
+                    val item = adapter.currentList[viewHolder.adapterPosition]
                     viewModel.deleteItem(item)
                 }
             }
