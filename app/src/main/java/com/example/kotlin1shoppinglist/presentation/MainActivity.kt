@@ -1,6 +1,7 @@
 package com.example.kotlin1shoppinglist.presentation
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin1shoppinglist.R
 import com.example.kotlin1shoppinglist.domain.ShopingItem
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +31,11 @@ class MainActivity : AppCompatActivity() {
 //            adapter.shopList = it
             adapter.submitList(it) 
         }
+        val button = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
+        button.setOnClickListener{
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
+        }
 
     }
 
@@ -44,9 +51,14 @@ class MainActivity : AppCompatActivity() {
 
         adapter.onShopItemListener =  {
             viewModel.changeEnableState(it)
+
+
         }                                                           
         adapter.onShopItemFastClickListener = {
                                viewModel.showSecondScreen(it)
+            val intent = ShopItemActivity.newIntentEditItem(this,it.id)
+            startActivity(intent)
+
         }
 
         setupSwipeListener(recyclerViewShopList)
@@ -65,7 +77,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    Log.d("TEST4", "DELETED")
 //                    val item = adapter.shopList[viewHolder.adapterPosition]
                     val item = adapter.currentList[viewHolder.adapterPosition]
                     viewModel.deleteItem(item)
