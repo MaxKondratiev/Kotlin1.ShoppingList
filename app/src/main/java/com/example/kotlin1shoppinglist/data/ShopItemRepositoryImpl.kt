@@ -1,5 +1,6 @@
 package com.example.kotlin1shoppinglist.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.kotlin1shoppinglist.domain.ShopItemRepository
@@ -33,6 +34,8 @@ object ShopItemRepositoryImpl: ShopItemRepository {
         updateLiveData()
     }
 
+
+
     override fun deleteItem(item: ShopingItem) {
        shopList.remove(item)
         updateLiveData()
@@ -52,7 +55,12 @@ object ShopItemRepositoryImpl: ShopItemRepository {
         shopList.remove(oldElement)
         shopList.add(item)
         updateLiveData()
-      
+    }
+
+    override fun showScreen(item: ShopingItem): ShopingItem {
+      val element = getItem(item.id)
+
+        return element
     }
 
     private  fun updateLiveData() {
