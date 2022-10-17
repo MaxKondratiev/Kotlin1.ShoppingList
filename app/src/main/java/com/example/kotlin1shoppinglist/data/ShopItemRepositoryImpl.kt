@@ -8,8 +8,9 @@ import java.lang.RuntimeException
 
 object ShopItemRepositoryImpl: ShopItemRepository {
 
-    private val shopList = mutableListOf<ShopingItem>()
-
+    private val shopList = sortedSetOf<ShopingItem>({
+        o1,o2 -> o1.id.compareTo(o2.id)
+    })
     private val shopLiveData = MutableLiveData<List<ShopingItem>>()
     private var autoIncrementId = 0
 
@@ -50,6 +51,7 @@ object ShopItemRepositoryImpl: ShopItemRepository {
         shopList.remove(oldElement)
         shopList.add(item)
         updateLiveData()
+      
     }
 
     private  fun updateLiveData() {

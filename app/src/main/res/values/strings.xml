@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Kotlin1.ShoppingList</string>
+    <string name="add_shop_item_content_description">Oписание</string>
 </resources>
