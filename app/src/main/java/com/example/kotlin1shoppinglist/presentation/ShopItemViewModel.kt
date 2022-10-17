@@ -48,6 +48,7 @@ class ShopItemViewModel: ViewModel() {
         _shopItem.value = item
     }
 
+
     fun addShopItem( inputName: String? , inputCount: String?) {
         val name = validateName(inputName)
         val count = validateCount(inputCount)
