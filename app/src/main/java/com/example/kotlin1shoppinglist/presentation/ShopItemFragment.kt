@@ -174,6 +174,8 @@ class ShopItemFragment(
             }
 
             fun newInstanceAddItem() : ShopItemFragment{
+
+                val args = Bundle()
                 return ShopItemFragment(ADD_MODE)
             }
             fun newInstanceEditItem(itemId: Int) : ShopItemFragment{
