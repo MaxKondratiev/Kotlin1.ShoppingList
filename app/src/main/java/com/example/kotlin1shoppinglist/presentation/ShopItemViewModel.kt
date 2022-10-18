@@ -88,12 +88,12 @@ class ShopItemViewModel: ViewModel() {
         if (name.isBlank()) {
             //TODO: Show error
             _errorInputName.value = true
-            result =   false
+            result = false
        }
         if (count <= 0 ) {
             //TODO: Show error
             _errorInputCount.value = true
-            result =   false
+            result = false
         }
         return  result
     }
