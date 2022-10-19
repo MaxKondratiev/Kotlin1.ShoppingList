@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainer
 import androidx.fragment.app.FragmentContainerView
@@ -18,7 +19,7 @@ import com.example.kotlin1shoppinglist.R
 import com.example.kotlin1shoppinglist.domain.ShopingItem
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnEdititngFinishedListener {
 
     private  lateinit var viewModel: MainViewModel
     private lateinit var adapter: ShopListAdapter
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener{
             //check if we are in land mode or not
             if(shopItemContainer !== null) {
+
                      launchFragment(ShopItemFragment.newInstanceAddItem())
             } else {
                 val intent = ShopItemActivity.newIntentAddItem(this)
@@ -58,6 +60,12 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
     }
+
+     override fun onEditingFinished() {
+        Toast.makeText(this, "Success" , Toast.LENGTH_SHORT).show()
+        supportFragmentManager.popBackStack()
+    }
+
 
     private fun setupRecylcerView() {
         val recyclerViewShopList = findViewById<RecyclerView>(R.id.rv_shop_list)

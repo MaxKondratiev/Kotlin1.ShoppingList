@@ -16,7 +16,7 @@ import com.example.kotlin1shoppinglist.domain.ShopingItem
 import com.google.android.material.textfield.TextInputLayout
 import java.lang.RuntimeException
 
-class ShopItemActivity : AppCompatActivity() {
+class ShopItemActivity : AppCompatActivity(), OnEdititngFinishedListener {
 
 //    private lateinit var viewModel: ShopItemViewModel
 //
@@ -171,5 +171,9 @@ class ShopItemActivity : AppCompatActivity() {
             return intent
         }
 
+    }
+
+    override fun onEditingFinished() {
+ finish()
     }
 }

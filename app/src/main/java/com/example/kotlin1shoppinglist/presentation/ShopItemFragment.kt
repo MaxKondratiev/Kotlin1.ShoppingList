@@ -22,6 +22,8 @@ class ShopItemFragment(
 ): Fragment() {
 
     private lateinit var viewModel: ShopItemViewModel
+     private lateinit var onEdititngFinishedListener: OnEdititngFinishedListener
+
     private lateinit var tVName: TextInputLayout
     private lateinit var tVCount: TextInputLayout
     private lateinit var editTextName: EditText
@@ -30,6 +32,16 @@ class ShopItemFragment(
 
     private var screenMode: String = UNKNOWN_MODE
     private var shopItemId : Int = ShopingItem.UNDEFINED_ID
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is OnEdititngFinishedListener) {
+            onEdititngFinishedListener = context
+        }
+        else {
+            throw RuntimeException("Activity must implenent listener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +94,7 @@ class ShopItemFragment(
                 tVName.error = message.toString()
             }
             viewModel.isTimeToFinishScreen.observe(viewLifecycleOwner) {
-                activity?.onBackPressed()
+                onEdititngFinishedListener.onEditingFinished()
             }
         }
 
@@ -198,4 +210,10 @@ class ShopItemFragment(
             }
 
         }
+
+
     }
+
+interface OnEdititngFinishedListener {
+    fun onEditingFinished()
+}
