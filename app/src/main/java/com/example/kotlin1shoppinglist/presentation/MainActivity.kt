@@ -8,6 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainer
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -19,11 +22,15 @@ class MainActivity : AppCompatActivity() {
 
     private  lateinit var viewModel: MainViewModel
     private lateinit var adapter: ShopListAdapter
+    private  var shopItemContainer: FragmentContainerView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        shopItemContainer = findViewById(R.id.shop_item_container)
+
         setupRecylcerView()
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopListLiveDataRe.observe(this) {
@@ -31,12 +38,25 @@ class MainActivity : AppCompatActivity() {
 //            adapter.shopList = it
             adapter.submitList(it) 
         }
+        //  OnClickListener
         val button = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
         button.setOnClickListener{
-            val intent = ShopItemActivity.newIntentAddItem(this)
-            startActivity(intent)
+            //check if we are in land mode or not
+            if(shopItemContainer !== null) {
+                     launchFragment(ShopItemFragment.newInstanceAddItem())
+            } else {
+                val intent = ShopItemActivity.newIntentAddItem(this)
+                startActivity(intent)
+            }
         }
+    }
 
+    private fun launchFragment(fragment: Fragment) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.shop_item_container,fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun setupRecylcerView() {
@@ -55,10 +75,13 @@ class MainActivity : AppCompatActivity() {
 
         }                                                           
         adapter.onShopItemFastClickListener = {
-                               viewModel.showSecondScreen(it)
-            val intent = ShopItemActivity.newIntentEditItem(this,it.id)
-            startActivity(intent)
-
+            viewModel.showSecondScreen(it)
+            if(shopItemContainer !== null) {
+                launchFragment(ShopItemFragment.newInstanceEditItem(it.id))
+            } else {
+                val intent = ShopItemActivity.newIntentEditItem(this,it.id)
+                startActivity(intent)
+            }
         }
 
         setupSwipeListener(recyclerViewShopList)

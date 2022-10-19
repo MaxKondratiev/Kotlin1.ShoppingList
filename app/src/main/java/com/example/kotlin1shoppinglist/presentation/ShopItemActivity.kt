@@ -35,14 +35,19 @@ class ShopItemActivity : AppCompatActivity() {
     parseIntent()
 
     //вызов фрагмента
-    val ourfragment = when (screenMode) {
-        EDIT_MODE -> ShopItemFragment.newInstanceEditItem(shopItemId)
-        ADD_MODE -> ShopItemFragment.newInstanceAddItem()
-        else -> throw RuntimeException("unknown screen mode")
+    //c проверкой на первый запуск
+    if(savedInstanceState == null) {
+        val ourfragment = when (screenMode) {
+            EDIT_MODE -> ShopItemFragment.newInstanceEditItem(shopItemId)
+            ADD_MODE -> ShopItemFragment.newInstanceAddItem()
+            else -> throw RuntimeException("unknown screen mode")
+        }
+        supportFragmentManager.beginTransaction()
+            //.replace - заменяет  // add добавляет
+            .replace(R.id.shop_item_container, ourfragment)
+            .commit()
     }
-    supportFragmentManager.beginTransaction()
-        .add(R.id.shop_item_container, ourfragment)
-        .commit()
+
 }
 //
 //
